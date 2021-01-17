@@ -1,0 +1,43 @@
+.navbarright{
+float:right
+
+}
+.navbarleft{
+    color:lightsteelblue;
+
+}
+.fullNav{
+    background: rgb(89, 99, 114);
+width: 100%;
+font-size: 3.5vw;
+color:lightsteelblue;
+opacity:1
+}
+.fullFooter{
+
+    background: rgb(89, 99, 114);
+width: 100%;
+font-size: 3.5vw;
+color:lightsteelblue;
+}
+.fullFooterCenter{
+   padding-left: 39%;
+   
+}
+.BigSizeNav{
+    background: rgb(89, 99, 114);
+font-size: 3.5vw;
+margin-left:3vw;
+margin-right:3vw;
+
+}
+.MediumSizeNav{
+border-radius: .5vw;
+    /* background: rgb(122, 139, 156); */
+font-size: 2.8vw;
+margin-left:3vw;
+margin-right:3vw;
+border-color: lightslategrey;
+color:lightsteelblue;
+}
+
