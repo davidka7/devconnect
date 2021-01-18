@@ -1,17 +1,28 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useState, useEffect } from "react";
+import { withRouter } from "react-router-dom";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { registerUser } from "../../actions/authActions";
 import classnames from "classnames";
 import "react-bootstrap/dist/react-bootstrap.min.js";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import "./auth.css";
+import { set } from "mongoose";
 
-function Register() {
+function Register({ auth, registerUser, errorz, history }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
   const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    if (errorz) {
+      setErrors(errorz);
+    }
+  });
+
   const handleChange = (e) => {
     if (e.target.name === "name") {
       setName(e.target.value);
@@ -31,10 +42,8 @@ function Register() {
       password: password,
       password2: password2,
     };
-    axios
-      .post("/api/users/register", newUser)
-      .then((res) => console.log(res.data))
-      .catch((err) => setErrors(err.response.data));
+
+    registerUser(newUser, history);
   };
   return (
     <div className="fullSize">
@@ -125,4 +134,15 @@ function Register() {
     </div>
   );
 }
-export default Register;
+Register.propTypes = {
+  registerUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errorz: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  errorz: state.error,
+});
+
+export default connect(mapStateToProps, { registerUser })(withRouter(Register));
