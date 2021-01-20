@@ -5,8 +5,8 @@ const passport = require("passport");
 
 // Load Validation
 const validateProfileInput = require("../../validation/profile");
-const validateExperienceInput = require("../../validation/experience");
-const validateEducationInput = require("../../validation/education");
+const validatePetInput = require("../../validation/pet");
+const validatePetForSaleInput = require("../../validation/petforsale");
 // Load Profile Model
 const Profile = require("../../models/Profile");
 // Load User Profile
@@ -119,8 +119,7 @@ router.post(
     if (req.body.location) profileFields.location = req.body.location;
     if (req.body.bio) profileFields.bio = req.body.bio;
     if (req.body.status) profileFields.status = req.body.status;
-    if (req.body.githubusername)
-      profileFields.githubusername = req.body.githubusername;
+
     // Skills - split into array
     if (typeof req.body.skills !== "undefined") {
       profileFields.skills = req.body.skills.split(",");
@@ -160,14 +159,14 @@ router.post(
   }
 );
 
-// @route Post api/profile/experience
-// @desc  Add experience to profile
+// @route Post api/profile/pet
+// @desc  Add pet to profile
 // @acces Private
 router.post(
-  "/experience",
+  "/pet",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    const { errors, isValid } = validateExperienceInput(req.body);
+    const { errors, isValid } = validatePetInput(req.body);
 
     // Check Validation
     if (!isValid) {
@@ -178,30 +177,30 @@ router.post(
     Profile.findOne({
       user: req.user.id,
     }).then((profile) => {
-      const newExp = {
-        title: req.body.title,
-        company: req.body.company,
-        location: req.body.location,
+      const newPet = {
+        name: req.body.name,
+        species: req.body.species,
+        breed: req.body.breed,
         from: req.body.from,
         to: req.body.to,
         current: req.body.current,
         description: req.body.description,
       };
-      // Add to exp array
-      profile.experience.unshift(newExp);
+      // Add to pet array
+      profile.pet.unshift(newPet);
 
       profile.save().then((profile) => res.json(profile));
     });
   }
 );
-// @route Post api/profile/education
-// @desc  Add education to profile
+// @route Post api/profile/petforsale
+// @desc  Add petforsale to profile
 // @acces Private
 router.post(
-  "/education",
+  "/petforsale",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    const { errors, isValid } = validateEducationInput(req.body);
+    const { errors, isValid } = validatePetForSaleInput(req.body);
 
     // Check Validation
     if (!isValid) {
@@ -212,41 +211,41 @@ router.post(
     Profile.findOne({
       user: req.user.id,
     }).then((profile) => {
-      const newEdu = {
-        school: req.body.school,
-        degree: req.body.degree,
-        fieldofstudy: req.body.fieldofstudy,
+      const newPetForSale = {
+        name: req.body.name,
+        species: req.body.species,
+        cost: req.body.cost,
         from: req.body.from,
         to: req.body.to,
         current: req.body.current,
         description: req.body.description,
       };
-      // Add to exp array
-      console.log(newEdu);
-      profile.education.unshift(newEdu);
+      // Add to petforsale array
+      console.log(newPetForSale);
+      profile.petforsale.unshift(newPetForSale);
 
       profile.save().then((profile) => res.json(profile));
     });
   }
 );
 
-// @route DELETE api/profile/experience/:exp_id
-// @desc  Delte experience from profile
+// @route DELETE api/profile/pet/:pet_id
+// @desc  Delte pet from profile
 // @acces Private
 router.delete(
-  "/experience/:exp_id",
+  "/pet/:pet_id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Profile.findOne({
       user: req.user.id,
     }).then((profile) => {
       // Get remove index
-      const removeIndex = profile.experience
+      const removeIndex = profile.pet
         .map((item) => item.id)
-        .indexOf(req.params.exp_id);
+        .indexOf(req.params.pet_id);
 
       // Splice out of array
-      profile.experience.splice(removeIndex, 1);
+      profile.pet.splice(removeIndex, 1);
 
       // Save
       profile
@@ -257,23 +256,23 @@ router.delete(
   }
 );
 
-// @route DELETE api/profile/education/:exp_id
-// @desc  Delte education from profile
+// @route DELETE api/profile/petforsale/:petforsale_id
+// @desc  Delte petforsale from profile
 // @acces Private
 router.delete(
-  "/education/:edu_id",
+  "/petforsale/:petforsale_id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Profile.findOne({
       user: req.user.id,
     }).then((profile) => {
       // Get remove index
-      const removeIndex = profile.education
+      const removeIndex = profile.petforsale
         .map((item) => item.id)
-        .indexOf(req.params.edu_id);
+        .indexOf(req.params.petforsale_id);
 
       // Splice out of array
-      profile.education.splice(removeIndex, 1);
+      profile.petforsale.splice(removeIndex, 1);
 
       // Save
       profile

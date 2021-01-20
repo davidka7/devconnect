@@ -35,17 +35,17 @@ const ProfileSchema = new Schema({
   githubusername: {
     type: String,
   },
-  experience: [
+  pet: [
     {
-      title: {
+      name: {
         type: String,
         required: true,
       },
-      company: {
+      species: {
         type: String,
         required: true,
       },
-      location: {
+      breed: {
         type: String,
       },
       from: {
@@ -65,17 +65,17 @@ const ProfileSchema = new Schema({
     },
   ],
 
-  education: [
+  petforsale: [
     {
-      school: {
+      name: {
         type: String,
         required: true,
       },
-      degree: {
+      species: {
         type: String,
         required: true,
       },
-      fieldofstudy: {
+      cost: {
         type: String,
         required: true,
       },
