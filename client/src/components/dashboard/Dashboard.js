@@ -10,7 +10,7 @@ function Dashboard({ getCurrentProfile, auth, profilez }) {
   }, []);
   const { user } = auth;
   const { profile, loading } = profilez;
-  console.log(profile);
+
   let dashboardContent;
 
   if (profile === null || loading) {

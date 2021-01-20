@@ -83,3 +83,9 @@ min-width: 30vw;
           transform: rotateX(360deg);
         }
       }
+
+      small{
+
+font-size:1.5vw
+
+      }
