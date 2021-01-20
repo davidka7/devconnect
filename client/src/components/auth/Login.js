@@ -1,10 +1,14 @@
-import React, { useState } from "react";
-import classnames from "classnames";
+import React, { useState, useEffect } from "react";
+
+import TextFieldGroup from "../common/TextFieldGroup";
 import "react-bootstrap/dist/react-bootstrap.min.js";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { loginUser } from "../../actions/authActions";
 import "./auth.css";
-function Login() {
+function Login({ loginUser, auth, errorz, history }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
@@ -15,13 +19,22 @@ function Login() {
       setPassword(e.target.value);
     }
   };
+
+  useEffect(() => {
+    if (auth.isAuthenticated) {
+      history.push("/dashboard");
+    }
+    if (errorz) {
+      setErrors(errorz);
+    }
+  });
   const handleSubmit = (e) => {
     e.preventDefault(e);
     const user = {
       email: email,
       password: password,
     };
-    console.log(user);
+    loginUser(user);
   };
   return (
     <div>
@@ -29,41 +42,26 @@ function Login() {
         <Form className="min-width">
           Login
           <Form.Group controlId="formBasicEmail">
-            {/* <Form.Label className="register1">Name</Form.Label> */}
-
-            {/* <Form.Label className="register1">Email address</Form.Label> */}
-            <Form.Control
-              className={classnames("space1 space ", {
-                "is-invalid": errors.email,
-              })}
-              type="email"
-              size="lg"
+            <TextFieldGroup
+              className="space1 space"
+              placeholder="Email Address"
               name="email"
-              placeholder="Enter email"
-              onChange={handleChange}
+              type="email"
               value={email}
-            />
-            {errors.email && (
-              <div className="invalid-feedback">{errors.email}</div>
-            )}
+              onChange={handleChange}
+              error={errors.email}
+            ></TextFieldGroup>
           </Form.Group>
           <Form.Group controlId="formBasicPassword">
-            {/* <Form.Label className="register1">Password</Form.Label> */}
-            <Form.Control
-              className={classnames("space1 space ", {
-                "is-invalid": errors.password,
-              })}
-              onChange={handleChange}
-              size="lg"
+            <TextFieldGroup
+              className="space1 space"
+              placeholder="Password"
               name="password"
               type="password"
-              placeholder="Password"
               value={password}
-            />
-            {errors.password && (
-              <div className="invalid-feedback">{errors.password}</div>
-            )}
-            {/* <Form.Label className="register1">Confirm Password</Form.Label> */}
+              onChange={handleChange}
+              error={errors.password}
+            ></TextFieldGroup>
           </Form.Group>
           <Button
             onClick={handleSubmit}
@@ -78,5 +76,14 @@ function Login() {
     </div>
   );
 }
+Login.propTypes = {
+  loginUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errorz: PropTypes.object.isRequired,
+};
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  errorz: state.error,
+});
 
-export default Login;
+export default connect(mapStateToProps, { loginUser })(Login);

@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./landing.css";
 import "./navbarright.css";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-function Landing() {
+function Landing({ auth, history }) {
+  useEffect(() => {
+    if (auth.isAuthenticated) {
+      history.push("/dashboard");
+    }
+  });
   return (
     <div className="fullLayout">
       <br /> <br />
@@ -20,4 +27,8 @@ function Landing() {
   );
 }
 
-export default Landing;
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps)(Landing);

@@ -3,11 +3,12 @@ import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { registerUser } from "../../actions/authActions";
-import classnames from "classnames";
+import TextFieldGroup from "../common/TextFieldGroup";
 import "react-bootstrap/dist/react-bootstrap.min.js";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import "./auth.css";
+
 import { set } from "mongoose";
 
 function Register({ auth, registerUser, errorz, history }) {
@@ -20,6 +21,10 @@ function Register({ auth, registerUser, errorz, history }) {
   useEffect(() => {
     if (errorz) {
       setErrors(errorz);
+    }
+
+    if (auth.isAuthenticated) {
+      history.push("/dashboard");
     }
   });
 
@@ -51,75 +56,51 @@ function Register({ auth, registerUser, errorz, history }) {
         <Form className="min-width">
           Sign Up
           <Form.Group controlId="formBasicName">
-            {/* <Form.Label className="register1">Name</Form.Label> */}
-            <Form.Control
-              className={classnames("space1 space ", {
-                "is-invalid": errors.name,
-              })}
-              type="text"
-              onChange={handleChange}
+            <TextFieldGroup
+              className="space1 space"
+              placeholder="Enter Name"
               name="name"
-              size="lg"
-              placeholder="Enter name"
+              type="name"
               value={name}
-            />
-            {errors.name && (
-              <div className="invalid-feedback">{errors.name}</div>
-            )}
+              onChange={handleChange}
+              error={errors.name}
+            ></TextFieldGroup>
           </Form.Group>
           <Form.Group controlId="formBasicEmail">
-            {/* <Form.Label className="register1">Email address</Form.Label> */}
-            <Form.Control
-              className={classnames("space1 space ", {
-                "is-invalid": errors.email,
-              })}
-              type="email"
-              size="lg"
-              onChange={handleChange}
+            <TextFieldGroup
+              className="space1 space"
+              placeholder="Email Address"
               name="email"
-              placeholder="Enter email"
+              type="email"
               value={email}
-            />
-            {errors.email && (
-              <div className="invalid-feedback">{errors.email}</div>
-            )}
+              onChange={handleChange}
+              error={errors.email}
+            ></TextFieldGroup>
             <Form.Text className="text-muted register2">
               We'll never share your email with anyone else.
             </Form.Text>
           </Form.Group>
           <Form.Group controlId="formBasicPassword">
-            {/* <Form.Label className="register1">Password</Form.Label> */}
-            <Form.Control
-              size="lg"
-              name="password"
-              onChange={handleChange}
-              className={classnames("space1 space ", {
-                "is-invalid": errors.password,
-              })}
-              type="password"
+            <TextFieldGroup
+              className="space1 space"
               placeholder="Password"
-              value={password}
-            />
-            {errors.password && (
-              <div className="invalid-feedback">{errors.password}</div>
-            )}
-          </Form.Group>
-          {/* <Form.Label className="register1">Confirm Password</Form.Label> */}
-          <Form.Group controlId="formBasicPassword2">
-            <Form.Control
-              size="lg"
-              className={classnames("space1 space ", {
-                "is-invalid": errors.password2,
-              })}
-              name="password2"
-              onChange={handleChange}
+              name="password"
               type="password"
-              placeholder=" ConfirmPassword"
+              value={password}
+              onChange={handleChange}
+              error={errors.password}
+            ></TextFieldGroup>
+          </Form.Group>
+          <Form.Group controlId="formBasicPassword2">
+            <TextFieldGroup
+              className="space1 space"
+              placeholder="Confirm Password"
+              name="password2"
+              type="password2"
               value={password2}
-            />
-            {errors.password2 && (
-              <div className="invalid-feedback">{errors.password2}</div>
-            )}
+              onChange={handleChange}
+              error={errors.password2}
+            ></TextFieldGroup>
           </Form.Group>
           <Button
             onClick={handleSubmit}
