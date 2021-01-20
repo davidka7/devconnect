@@ -21,8 +21,7 @@ function Dashboard({ getCurrentProfile, auth, profile }) {
   return (
     <div className="dashboard">
       <div className="container">
-        <div className="row">Dashboard</div>
-        {dashboardContent}
+        <div className="row">Dashboard {dashboardContent}</div>
       </div>
     </div>
   );
