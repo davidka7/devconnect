@@ -32,6 +32,16 @@ flex-direction: column;
     color: rgb(184, 113, 125);
     font-size: 2vw;
   }
+  ::-webkit-textarea-placeholder { /* Chrome/Opera/Safari */
+    color: rgb(182, 159, 162);
+    font-size: 2vw;
+  }
+ 
+  :-ms-textarea-placeholder { /* IE 10+ */
+    color: rgb(190, 176, 178);
+    font-size: 2vw;
+  }
+
 
 
   .register1{

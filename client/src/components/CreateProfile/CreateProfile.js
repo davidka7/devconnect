@@ -3,10 +3,11 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import { createProfile } from "../../actions/profileActions";
 import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
 import TextFieldGroup from "../common/TextFieldGroup";
 import "../auth/auth.css";
-function CreateProfile({ profile, errorz }) {
+function CreateProfile({ profile, errorz, createProfile }) {
   const [displaySocialInpute, setDisplaySocialInpute] = useState(false);
   const [handle, setHandle] = useState("");
   const [company, setCompany] = useState("");
@@ -25,9 +26,8 @@ function CreateProfile({ profile, errorz }) {
       setErrors(errorz);
     }
   }, [errorz]);
-  console.log("hi");
+
   const handleChange = (e) => {
-    console.log("hiy");
     if (e.target.name === "handle") {
       setHandle(e.target.value);
     } else if (e.target.name === "company") {
@@ -171,7 +171,7 @@ function CreateProfile({ profile, errorz }) {
                 ></TextFieldGroup>
                 <TextFieldGroup
                   className="space1 space"
-                  placeholder="Facebook"
+                  placeholder="Facebook URL"
                   name="facebook"
                   type="facebook"
                   value={facebook}
@@ -180,7 +180,7 @@ function CreateProfile({ profile, errorz }) {
                 ></TextFieldGroup>
                 <TextFieldGroup
                   className="space1 space"
-                  placeholder="Linkedin"
+                  placeholder="Linkedin URL"
                   name="linkedin"
                   type="linkedin"
                   value={linkedin}
@@ -227,4 +227,4 @@ const mapStateToProps = (state) => ({
   errors: state.errors,
 });
 
-export default connect(mapStateToProps)(CreateProfile);
+export default connect(mapStateToProps, { createProfile })(CreateProfile);
