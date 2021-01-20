@@ -66,3 +66,20 @@ font-size: 1.7vw;
     .min-width{
 min-width: 30vw;
     }
+    i {
+        font-size: 124px;
+        display: inline-block;
+        animation: spin 1s infinite linear;
+      }
+      
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      
+      @keyframes twist-up {
+        to {
+          transform: rotateX(360deg);
+        }
+      }

@@ -27,7 +27,7 @@ function Login({ loginUser, auth, errorz, history }) {
     if (errorz) {
       setErrors(errorz);
     }
-  });
+  }, [auth.isAuthenticated, errorz, history]);
   const handleSubmit = (e) => {
     e.preventDefault(e);
     const user = {
